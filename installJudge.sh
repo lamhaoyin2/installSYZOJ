@@ -10,7 +10,7 @@ mkdir -p /opt/syzoj/sandbox/{bin,tmp1}
 
 # install yarn
 apt update
-apt install -y gnupg curl wget git
+apt install -y gnupg curl wget git software-properties-common
 
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
