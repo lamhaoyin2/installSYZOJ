@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# install yarn
+apt update
+apt install -y gnupg curl wget git software-properties-common
+
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirrors.tuna.tsinghua.edu.cn/mariadb/repo/10.3/ubuntu bionic main'
+add-apt-repository ppa:chris-lea/redis-server
+apt update
+
+
 # get sandbox
 mkdir -p /opt/syzoj/sandbox/rootfs
 cd /opt/syzoj/
@@ -7,16 +19,6 @@ wget https://lamfile.cf/sandbox-rootfs-181202.tar.xz
 cd sandbox
 tar -xJvf ../sandbox-rootfs-181202.tar.xz
 mkdir -p /opt/syzoj/sandbox/{bin,tmp1}
-
-# install yarn
-apt update
-apt install -y gnupg curl wget git software-properties-common
-
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-apt update
-
-mkdir -p /opt/syzoj/sandbox/rootfs
 
 # dependencies
 apt install yarn build-essential libboost-all-dev redis-server rabbitmq-server nodejs node-gyp -y
@@ -74,9 +76,6 @@ systemctl enable syzA.service
 systemctl enable syzB.service
 
 # dependencies
-apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirrors.tuna.tsinghua.edu.cn/mariadb/repo/10.3/ubuntu bionic main'
-add-apt-repository ppa:chris-lea/redis-server
 apt update
 apt install -y mariadb-server redis-server p7zip-full python3 python3-pip clang-format
 pip3 install pygments
